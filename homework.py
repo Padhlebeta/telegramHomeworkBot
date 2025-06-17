@@ -15,11 +15,16 @@ from googleapiclient.http import MediaFileUpload
 
 # === SERVICE.JSON: CREATE IF MISSING ===
 SERVICE_JSON = 'service.json'
+secret = os.getenv("GOOGLE_SERVICE_JSON")
+print("GOOGLE_SERVICE_JSON env available? ", bool(secret))
 if not os.path.exists(SERVICE_JSON):
-    secret = os.getenv("GOOGLE_SERVICE_JSON")
     if secret:
         with open(SERVICE_JSON, "w") as f:
             f.write(secret)
+    print("service.json created?", os.path.exists(SERVICE_JSON))
+else:
+    print("service.json already exists.")
+
 
 # === CONFIG ===
 TELEGRAM_BOT_TOKEN = '7394874359:AAHlPYTl0LItIckjPKYOsEuxWPC1Dnx6aXg'
