@@ -1,0 +1,9 @@
+# flyctl launch added from .gitignore
+**\__pycache__
+**\*.pyc
+**\downloads
+**\service.json
+**\AI.py
+**\sent.py
+**\enve
+fly.toml
