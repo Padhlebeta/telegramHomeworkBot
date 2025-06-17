@@ -13,9 +13,16 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
+# === SERVICE.JSON: CREATE IF MISSING ===
+SERVICE_JSON = 'service.json'
+if not os.path.exists(SERVICE_JSON):
+    secret = os.getenv("GOOGLE_SERVICE_JSON")
+    if secret:
+        with open(SERVICE_JSON, "w") as f:
+            f.write(secret)
+
 # === CONFIG ===
 TELEGRAM_BOT_TOKEN = '7394874359:AAHlPYTl0LItIckjPKYOsEuxWPC1Dnx6aXg'
-GOOGLE_SERVICE_JSON = 'service.json'
 SHEET_ID = '1CK4OWg7fvFVDMaynhepMP7Nbyml4XpiniWZaL3MMDyI'
 STUDENT_SHEET = 'Student Details'
 SUBMISSION_SHEET = 'Submissions'
@@ -53,7 +60,7 @@ SCOPES = [
 
 os.makedirs(DOWNLOADS_DIR, exist_ok=True)
 
-creds = Credentials.from_service_account_file(GOOGLE_SERVICE_JSON, scopes=SCOPES)
+creds = Credentials.from_service_account_file(SERVICE_JSON, scopes=SCOPES)
 gc = gspread.authorize(creds)
 student_sheet = gc.open_by_key(SHEET_ID).worksheet(STUDENT_SHEET)
 submission_sheet = gc.open_by_key(SHEET_ID).worksheet(SUBMISSION_SHEET)
